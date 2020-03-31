@@ -1,6 +1,6 @@
 class PoniesController < ApplicationController
   before_action :set_pony, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /ponies
   # GET /ponies.json
   def index
