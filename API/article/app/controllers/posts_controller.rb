@@ -11,13 +11,14 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    @post = Post.find(params[:id])
   end
 
   # POST /posts
   # POST /posts.json
   def create
     @post = Post.new(post_params)
-
+    
     if @post.save
       render :show, status: :created, location: @post
     else
@@ -49,7 +50,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :body)
+      params.require(:post).permit(:title, :body, :image)
     end
 
     def set_pagination_headers(pc)
