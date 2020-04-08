@@ -4,14 +4,39 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.page(params[:page] || 1).per(params[:per_page_post] || 10) # check for then page params if not available than give page1
-    set_pagination_headers(@posts)
+    begin
+      @posts = Post.page(params[:page] || 1).per(params[:per_page_post] || 10) # check for then page params if not available than give page1
+      set_pagination_headers(@posts)
+      @count = Post.count
+
+
+      @data = {
+        'message' => "Success",
+        'total posts' => @count,
+        'data' => @posts
+      }
+      render json:@data , status: 200
+    rescue
+      raise "No Posts Find"
+    end
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
-    @post = Post.find(params[:id])
+    begin
+      @post = Post.find(params[:id])
+      if @post?
+        render json:
+      else
+        data = {
+          'error' => "post unavailable"
+        }
+        render json:data , status: 404
+      end
+    rescue Exception => @e
+
+    end
   end
 
   # POST /posts
